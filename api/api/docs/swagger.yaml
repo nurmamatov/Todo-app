@@ -1,0 +1,685 @@
+basePath: /v1
+definitions:
+  email.Status:
+    properties:
+      status:
+        type: string
+    type: object
+  task.CreateTaskReq:
+    properties:
+      assignee_id:
+        type: string
+      deadline:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+    type: object
+  task.ErrOrStatus:
+    properties:
+      message:
+        type: string
+    type: object
+  task.TaskRes:
+    properties:
+      assignee_id:
+        type: string
+      created_at:
+        type: string
+      deadline:
+        type: string
+      id:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  task.TasksList:
+    properties:
+      tasks:
+        items:
+          $ref: '#/definitions/task.TaskRes'
+        type: array
+    type: object
+  task.UpdateTaskReq:
+    properties:
+      assignee_id:
+        type: string
+      deadline:
+        type: string
+      id:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+    type: object
+  user.Address:
+    properties:
+      location:
+        type: string
+    type: object
+  user.Check:
+    properties:
+      code:
+        type: string
+      username:
+        type: string
+    type: object
+  user.CreateUserReq:
+    properties:
+      accses_token:
+        type: string
+      address:
+        items:
+          $ref: '#/definitions/user.Address'
+        type: array
+      bio:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      password:
+        type: string
+      phone:
+        items:
+          $ref: '#/definitions/user.Phone'
+        type: array
+      profile_photo:
+        type: string
+      refresh_token:
+        type: string
+      username:
+        type: string
+    type: object
+  user.EmailWithPassword:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  user.ErrOrStatus:
+    properties:
+      message:
+        type: string
+    type: object
+  user.FiltrReq:
+    properties:
+      filtr:
+        additionalProperties:
+          type: string
+        type: object
+      limit:
+        type: integer
+      page:
+        type: integer
+    type: object
+  user.Mess:
+    properties:
+      res:
+        type: string
+    type: object
+  user.Phone:
+    properties:
+      phone:
+        type: string
+    type: object
+  user.Task:
+    properties:
+      assignee_id:
+        type: string
+      created_at:
+        type: string
+      deadline:
+        type: string
+      id:
+        type: string
+      status:
+        type: string
+      title:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  user.UpdateUserReq:
+    properties:
+      address:
+        items:
+          $ref: '#/definitions/user.Address'
+        type: array
+      bio:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      phone:
+        items:
+          $ref: '#/definitions/user.Phone'
+        type: array
+      profile_photo:
+        type: string
+      tasks:
+        items:
+          $ref: '#/definitions/user.Task'
+        type: array
+      username:
+        type: string
+    type: object
+  user.UserRes:
+    properties:
+      Address:
+        items:
+          $ref: '#/definitions/user.Address'
+        type: array
+      acces_token:
+        type: string
+      bio:
+        type: string
+      created_at:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: string
+      last_name:
+        type: string
+      phone_num:
+        items:
+          $ref: '#/definitions/user.Phone'
+        type: array
+      profile_photo:
+        type: string
+      refresh_token:
+        type: string
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  user.UsersList:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/user.UserRes'
+        type: array
+    type: object
+info:
+  contact: {}
+  description: this is a user and task services api
+  version: "1.0"
+paths:
+  /tasks:
+    get:
+      consumes:
+      - application/json
+      description: This method Update task
+      parameters:
+      - description: List Tasks
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: List Tasks
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task.TasksList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+      security:
+      - BearerAuth: []
+      summary: List Tasks
+      tags:
+      - Task
+    post:
+      consumes:
+      - application/json
+      description: This method create new task
+      parameters:
+      - description: New Task
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/task.CreateTaskReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task.TaskRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+      security:
+      - BearerAuth: []
+      summary: Creates new task
+      tags:
+      - Task
+    put:
+      consumes:
+      - application/json
+      description: This method Update task
+      parameters:
+      - description: Update Task
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/task.UpdateTaskReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task.TaskRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+      security:
+      - BearerAuth: []
+      summary: Update Task
+      tags:
+      - Task
+  /tasks/{id}:
+    get:
+      consumes:
+      - application/json
+      description: This method Get task task
+      parameters:
+      - description: Task ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task.TaskRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+      security:
+      - BearerAuth: []
+      summary: Get Task
+      tags:
+      - Task
+    put:
+      consumes:
+      - application/json
+      description: This method Delete task
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+      security:
+      - BearerAuth: []
+      summary: Delete Task
+      tags:
+      - Task
+  /tasksoverdue:
+    get:
+      consumes:
+      - application/json
+      description: This method List Overdue
+      parameters:
+      - description: List Tasks Overdue
+        in: query
+        name: todo
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/task.TasksList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/task.ErrOrStatus'
+      security:
+      - BearerAuth: []
+      summary: List Tasks Overdue
+      tags:
+      - Task
+  /users:
+    post:
+      consumes:
+      - application/json
+      description: This method registr new user
+      parameters:
+      - description: Registr User
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/user.CreateUserReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/email.Status'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+      summary: Registr new user
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: This method Update user
+      parameters:
+      - description: Update User
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/user.UpdateUserReq'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/user.UserRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+      security:
+      - BearerAuth: []
+      summary: Update User
+      tags:
+      - User
+  /users/{id}:
+    get:
+      consumes:
+      - application/json
+      description: This method Get User
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/user.UserRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+      security:
+      - BearerAuth: []
+      summary: Get User
+      tags:
+      - User
+    put:
+      consumes:
+      - application/json
+      description: This method Delete user
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+      security:
+      - BearerAuth: []
+      summary: Delete User
+      tags:
+      - User
+  /users/filtr:
+    post:
+      consumes:
+      - application/json
+      description: This method Filtr
+      parameters:
+      - description: Filtr
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/user.FiltrReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.UsersList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+      summary: Filtr
+      tags:
+      - User
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: This method Login
+      parameters:
+      - description: Login
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/user.EmailWithPassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/user.Mess'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+      summary: Login
+      tags:
+      - User
+  /users/verify:
+    post:
+      consumes:
+      - application/json
+      description: This method Verify new user
+      parameters:
+      - description: Verify User
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/user.Check'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/user.CreateUserReq'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/user.ErrOrStatus'
+      summary: Verify new user
+      tags:
+      - User
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

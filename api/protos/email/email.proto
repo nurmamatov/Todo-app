@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package email;
+
+service EmailService{
+    rpc SendEmail(Email) returns(Empty);
+    rpc SendSms(Sms) returns(Status);
+}
+
+message Email{
+    string Id=1;
+    string Subject=2;
+    string Body=3;
+    string Email = 5;
+}
+message Status {
+    string status = 1;
+}
+message Sms {
+    string Id=1;
+    string Body=2;
+    string Phone=3;
+}
+message Empty{}

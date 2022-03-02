@@ -1,0 +1,160 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+    rpc Get (GetOrDeleteUser) returns (UserRes);
+    rpc Update (UpdateUserReq) returns (UserRes);
+    rpc Delete (GetOrDeleteUser) returns (ErrOrStatus);
+    rpc List (Empty) returns (UsersList);
+    rpc ListEmail (Ids) returns (Emails);
+    rpc ChekUser (EmailWithUsername) returns (Bool);
+    rpc Login (EmailWithPassword) returns (UserRes);
+    rpc Registr (CreateUserReqWithCode) returns (Mess);
+    rpc Verfy (Check) returns (CreateUserReq);
+    rpc Create (CreateUserReqWithCode) returns (UserRes);
+    rpc UpdateToken (TokensReq) returns (Tokens);
+    rpc Filtr (FiltrReq) returns (UsersList);
+}
+message Tokens {
+    string access_token = 1;
+    string refresh_token = 2;
+}
+message TokensReq {
+    string id = 1;
+    string access_token = 2;
+    string refresh_token = 3;
+}
+message Bool {
+    bool chekfild = 1;
+}
+message Check {
+    string username = 1;
+    string code =2;
+}
+message EmailWithUsername {
+    string email = 1;
+    string username = 2;
+}
+message EmailWithPassword {
+    string email = 1;
+    string password = 2;
+}
+message Mess {
+    string res = 1;
+}
+
+message Empty {}
+message UserRes {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string username = 4;
+    string profile_photo = 5;
+    string bio = 6;
+    string email = 7;
+    string gender = 8;
+    repeated Address Address= 9;
+    repeated Phone phone_num = 10;
+    string created_at = 11;
+    string updated_at = 12;
+    string acces_token = 13;
+    string refresh_token = 14;
+}
+message CreateUserReqWithCode {
+    string first_name = 1;
+    string last_name = 2;
+    string username = 3;
+    string profile_photo = 4;
+    string bio = 5;
+    string email = 6;
+    string gender = 7;
+    repeated Address address = 8;
+    repeated Phone phone = 9;
+    string password = 10;
+    string verf_code = 11;
+    string accses_token =12;
+    string refresh_token = 13;
+    string id =15;
+}
+message CreateUserReq {
+    string first_name = 1;
+    string last_name = 2;
+    string username = 3;
+    string profile_photo = 4;
+    string bio = 5;
+    string email = 6;
+    string gender = 7;
+    repeated Address address = 8;
+    repeated Phone phone = 9;
+    string password = 10;
+    string accses_token =11;
+    string refresh_token = 12;
+    string id =13;
+}
+
+message UpdateUserReq {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string username = 4;
+    string profile_photo = 5;
+    string bio = 6;
+    string email = 7;
+    string gender = 8;
+    repeated Address address = 9;
+    repeated Phone phone = 10;
+    repeated Task tasks = 11;
+}
+
+message Address {
+    string location = 1;
+}
+
+message Phone {
+    string phone = 1;
+}
+
+message Task {
+    string id = 1;
+    string title = 2;
+    string assignee_id = 3;
+    string deadline = 4;
+    string status = 5;
+    string created_at = 6;
+    string updated_at = 7;
+}
+
+
+message GetOrDeleteUser {
+    string id = 1;
+}
+
+message Ids {
+    repeated GetOrDeleteUser id = 1;
+}
+message Emails {
+    repeated Email email = 1;
+}
+message Email {
+    string email = 1;
+}
+
+message LimAndPage {
+    int64 limit = 1;
+    int64 page = 2;
+}
+message FiltrReq {
+    int64 limit = 1;
+    int64 page = 2;
+    map<string,string> filtr = 3;
+}
+
+message UsersList {
+    repeated UserRes users = 1;
+}
+
+
+message ErrOrStatus {
+    string message = 1;
+}

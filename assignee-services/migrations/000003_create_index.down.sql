@@ -1,0 +1,2 @@
+DROP INDEX user;
+DROP INDEX email;

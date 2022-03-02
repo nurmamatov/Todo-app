@@ -1,0 +1,92 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+    rpc Create (CreateUserReq) returns (UserRes);
+    rpc Get (GetOrDeleteUser) returns (UserRes);
+    rpc Update (UpdateUserReq) returns (UserRes);
+    rpc Delete (GetOrDeleteUser) returns (ErrOrStatus);
+}
+
+
+message UserRes {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string username = 4;
+    string profile_photo = 5;
+    string bio = 6;
+    string email = 7;
+    string gender = 8;
+    repeated Address Address= 9;
+    repeated Phone phone_num = 10;
+    string created_at = 11;
+    string updated_at = 12;
+}
+message CreateUserReq {
+    string first_name = 1;
+    string last_name = 2;
+    string username = 3;
+    string profile_photo = 4;
+    string bio = 5;
+    string email = 6;
+    string gender = 7;
+    repeated Address address = 8;
+    repeated Phone phone = 9;
+}
+
+message UpdateUserReq {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string username = 4;
+    string profile_photo = 5;
+    string bio = 6;
+    string email = 7;
+    string gender = 8;
+    repeated Address address = 9;
+    repeated Phone phone = 10;
+    repeated Task tasks = 11;
+}
+
+message Address {
+    string location = 1;
+}
+
+message Phone {
+    string phone = 1;
+}
+
+message Task {
+    string id = 1;
+    string title = 2;
+    string assignee_id = 3;
+    string deadline = 4;
+    string status = 5;
+    string created_at = 6;
+    string updated_at = 7;
+}
+
+
+message GetOrDeleteUser {
+    string id = 1;
+}
+
+message Id {
+    string id = 1;
+}
+
+message LimAndPage {
+    int64 limit = 1;
+    int64 page = 2;
+}
+
+message UsersList {
+    repeated UserRes users = 1;
+}
+
+
+message ErrOrStatus {
+    string message = 1;
+}
