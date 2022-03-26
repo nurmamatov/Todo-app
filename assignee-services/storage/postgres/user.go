@@ -7,14 +7,11 @@ import (
 	"fmt"
 	"time"
 
-	// "time"
 	pb "two_services/assignee-services/genproto"
 
 	"github.com/go-redis/redis"
 	sqlbuilder "github.com/huandu/go-sqlbuilder"
 	"golang.org/x/crypto/bcrypt"
-
-	// "github.com/google/uuid"
 
 	"github.com/jmoiron/sqlx"
 )

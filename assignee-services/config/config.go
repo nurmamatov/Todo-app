@@ -22,9 +22,9 @@ func Load() Config {
 
 	c.Environment = cast.ToString(getOrReturnDefould("ENVIRONMENT", "develop"))
 
-	c.PostgresHost = cast.ToString(getOrReturnDefould("POSTGRES_HOST", "localhost"))
+	c.PostgresHost = cast.ToString(getOrReturnDefould("POSTGRES_HOST", "database"))
 	c.PostgresPort = cast.ToInt(getOrReturnDefould("POSTGRES_PORT", 5432))
-	c.PostgresDatabase = cast.ToString(getOrReturnDefould("POSTGRES_DATABASE", "assignes"))
+	c.PostgresDatabase = cast.ToString(getOrReturnDefould("POSTGRES_DATABASE", "database"))
 	c.PostgresUser = cast.ToString(getOrReturnDefould("POSTGRES_USER", "khusniddin"))
 	c.PostgresPassword = cast.ToString(getOrReturnDefould("POSTGRES_PASSWORD", "1234"))
 

@@ -34,11 +34,11 @@ func Load() Config {
 
 	c.LogLevel = cast.ToString(getOrReturnDefault("LOG_LEVEL", "debug"))
 	c.HTTPPort = cast.ToString(getOrReturnDefault("HTTP_PORT", ":8080"))
-	c.TaskServiceHost = cast.ToString(getOrReturnDefault("TASK_SERVICE_HOST", "127.0.0.1"))
-	c.UserServiceHost = cast.ToString(getOrReturnDefault("USER_SERVICE_HOST", "127.0.0.1"))
+	c.TaskServiceHost = cast.ToString(getOrReturnDefault("TASK_SERVICE_HOST", "task-services"))
+	c.UserServiceHost = cast.ToString(getOrReturnDefault("USER_SERVICE_HOST", "assignee-services"))
 	c.TaskServicePort = cast.ToInt(getOrReturnDefault("TASK_SERVICE_PORT", 50051))
 	c.UserServicePort = cast.ToInt(getOrReturnDefault("USER_SERVICE_PORT", 50052))
-	c.EmailServiceHost = cast.ToString(getOrReturnDefault("EMAIL_SERVICE_HOST", "127.0.0.1"))
+	c.EmailServiceHost = cast.ToString(getOrReturnDefault("EMAIL_SERVICE_HOST", "email_service"))
 	c.EmailServicePort = cast.ToInt(getOrReturnDefault("EMAIL_SERVICE_PORT", 9002))
 
 	c.CtxTimeout = cast.ToInt(getOrReturnDefault("CTX_TIMEOUT", 7))

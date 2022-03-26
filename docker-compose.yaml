@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  database:
+    container_name: database
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: khusniddin
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: database
+    ports:
+      - "5432:5432"
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+  api:
+    container_name: api
+    build: ./api
+    depends_on:
+      - "redis"
+    ports:
+      - "8080:8080"
+  
+  email_service:
+    container_name: email_service
+    build: ./email_service
+    depends_on:
+      - "database"
+    ports:
+      - "9002:9002"
+  
+  task-services:
+    container_name: task-services
+    build: ./task-services
+    depends_on:
+      - "database"
+      - "email_service"
+    ports:
+      - "50051:50051"
+  
+  assignee-services:
+    container_name: assignee-services
+    build: ./assignee-services
+    depends_on:
+      - "database"
+      - "email_service"
+      - "task-services"
+    ports:
+      - "50052:50052"
